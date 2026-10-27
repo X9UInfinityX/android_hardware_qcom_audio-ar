@@ -1,5 +1,9 @@
 cc_library_shared {
     name: "libvolumelistener",
+    enabled: select(soong_config_variable("qtiaudio", "prebuilt_volume_listener"), {
+        true: false,
+        default: true,
+    }),
     defaults: ["aidlaudioeffectserviceqti_defaults"],
     owner: "qti",
     relative_install_path: "soundfx",
