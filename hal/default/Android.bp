@@ -1,0 +1,55 @@
+cc_library_shared {
+    name: "libaudiocorehal.default",
+    defaults: [
+        "latest_android_hardware_audio_core_ndk_shared",
+        "latest_android_media_audio_common_types_ndk_shared",
+    ],
+    relative_install_path: "hw",
+    vendor: true,
+
+    cflags: [
+        "-DBACKEND_NDK",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wthread-safety",
+    ],
+
+    srcs: ["DefaultServices.cpp"],
+
+    header_libs: [
+        "liberror_headers",
+        "libxsdc-utils",
+    ],
+
+    shared_libs: [
+        "android.hardware.common-V2-ndk",
+        "libaudioaidlcommon",
+        "libaudioserviceexampleimpl",
+        "libaudioutils",
+        "libbase",
+        "libbinder_ndk",
+        "libcutils",
+        "libdl",
+        "libfmq",
+        "libhardware",
+        "libhidlbase",
+        "liblog",
+        "libmedia_helper",
+        "libstagefright_foundation",
+        "libutils",
+        "libxml2",
+    ],
+
+    required: [
+        "manifest_audiocorehal_default.xml",
+    ],
+}
+
+prebuilt_etc {
+    name: "manifest_audiocorehal_default.xml",
+    src: "manifest_audiocorehal_default.xml",
+    filename_from_src: true,
+    sub_dir: "vintf/manifest",
+    vendor: true,
+}

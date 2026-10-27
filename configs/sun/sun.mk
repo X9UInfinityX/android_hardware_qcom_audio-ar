@@ -1,3 +1,5 @@
+# Business Application definition
+BA_NAME := mobile
 # Audio product definitions
 include vendor/qcom/opensource/audio-hal/primary-hal/configs/sun/audio-modules.mk
 PRODUCT_PACKAGES += $(AUDIO_MODULES)
@@ -75,9 +77,9 @@ PRODUCT_PACKAGES += fai__3.0.0_0.0__eai_4.6_enpuv5.pmd
 # Audio configuration xml's related to Lanai
 QCV_FAMILY_SKUS := sun
 DEVICE_SKU := sun
-UV_WRAPPER2 := true
+UV_WRAPPER2 := false
 
-CONFIG_PAL_SRC_DIR := vendor/qcom/opensource/pal/configs/sun
+CONFIG_PAL_SRC_DIR := vendor/qcom/opensource/pal/configs/qcom/$(BA_NAME)/sun
 CONFIG_HAL_SRC_DIR := vendor/qcom/opensource/audio-hal/primary-hal/configs/sun
 CONFIG_SKU_OUT_DIR := $(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_$(DEVICE_SKU)
 
@@ -151,6 +153,10 @@ endif
 # Reduce AF standby time for playback threads (except offload)
 PRODUCT_PROPERTY_OVERRIDES += \
    ro.audio.flinger_standbytime_ms=2000
+
+# override usecase validator to true, needed for BT gaming usecases
+PRODUCT_PROPERTY_OVERRIDES += \
+   ro.audio.usecase_validator_enabled=true
 
 # timecheck timeout value for audio in ms
 PRODUCT_PROPERTY_OVERRIDES += \

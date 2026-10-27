@@ -24,12 +24,6 @@
 <!--  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE    -->
 <!--  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN  -->
 <!--  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                           -->
-
-<!-- Changes from Qualcomm Technologies, Inc. are provided under the following license:
- Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
- SPDX-License-Identifier: BSD-3-Clause-Clear
-* -->
-
 <defs>
 <card>
     <id>100</id>
@@ -268,7 +262,7 @@
 
     <pcm-device>
         <id>118</id>
-        <name>PCM118</name>
+        <name>ExtEC118</name>
         <pcm_plugin>
             <so-name>libagm_pcm_plugin.so</so-name>
         </pcm_plugin>
@@ -278,85 +272,6 @@
             <session_mode>1</session_mode>
         </props>
     </pcm-device>
-
-    <pcm-device>
-        <id>119</id>
-        <name>PCM119</name>
-        <pcm_plugin>
-            <so-name>libagm_pcm_plugin.so</so-name>
-        </pcm_plugin>
-        <props>
-            <playback>0</playback>
-            <capture>1</capture>
-            <session_mode>1</session_mode>
-        </props>
-    </pcm-device>
-
-    <pcm-device>
-        <id>120</id>
-        <name>PCM120</name>
-        <pcm_plugin>
-            <so-name>libagm_pcm_plugin.so</so-name>
-        </pcm_plugin>
-        <props>
-            <playback>0</playback>
-            <capture>1</capture>
-            <session_mode>1</session_mode>
-        </props>
-    </pcm-device>
-
-    <pcm-device>
-        <id>121</id>
-        <name>PCM121</name>
-        <pcm_plugin>
-            <so-name>libagm_pcm_plugin.so</so-name>
-        </pcm_plugin>
-        <props>
-            <playback>0</playback>
-            <capture>1</capture>
-            <session_mode>1</session_mode>
-        </props>
-    </pcm-device>
-
-    <pcm-device>
-        <id>122</id>
-        <name>ExtEC122</name>
-        <pcm_plugin>
-            <so-name>libagm_pcm_plugin.so</so-name>
-        </pcm_plugin>
-        <props>
-            <playback>0</playback>
-            <capture>1</capture>
-            <session_mode>1</session_mode>
-        </props>
-    </pcm-device>
-
-    <pcm-device>
-        <id>123</id>
-        <name>PCM123</name>
-        <pcm_plugin>
-            <so-name>libagm_pcm_plugin.so</so-name>
-        </pcm_plugin>
-        <props>
-            <playback>1</playback>
-            <capture>0</capture>
-            <session_mode>1</session_mode>
-        </props>
-    </pcm-device>
-
-    <compress-device>
-        <id>124</id>
-        <name>COMPRESS124</name>
-        <compress_plugin>
-            <so-name>libagm_compress_plugin.so</so-name>
-        </compress_plugin>
-        <props>
-            <playback>0</playback>
-            <capture>1</capture>
-            <!--  AGM_SESSION_COMPRESS  -->
-            <session_mode>4</session_mode>
-        </props>
-    </compress-device>
 
     <mixer>
         <id>1</id>

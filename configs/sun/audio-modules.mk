@@ -28,14 +28,18 @@ AUDIO_PAL := libar-pal
 AUDIO_PAL += lib_bt_bundle
 AUDIO_PAL += lib_bt_aptx
 AUDIO_PAL += lib_bt_ble
-AUDIO_PAL += catf
 AUDIO_PAL += PalTest
 AUDIO_PAL += libaudiochargerlistener
 AUDIO_PAL += libhfp_pal
+ifneq ($(call soong_config_get, qtiaudio, hy11), true)
+ifneq ($(call soong_config_get, qtiaudio, hy22), true)
+AUDIO_PAL += catf
+endif
+endif
+
 #PAL Service
 AUDIO_PAL += libpalclient
 AUDIO_PAL += libpalipcservice
-AUDIO_PAL += libpaleventnotifier
 #PAL Stream Modules
 AUDIO_PAL += libstream_compress
 AUDIO_PAL += libstream_incall
@@ -49,7 +53,7 @@ AUDIO_PAL += libstream_haptics
 AUDIO_PAL += libstream_acd
 AUDIO_PAL += libstream_nontunnel
 AUDIO_PAL += libstream_soundtrigger
-AUDIO_PAL += libstream_acdb
+AUDIO_PAL += libstream_dummy
 AUDIO_PAL += libstream_asr
 #PAL Sessions Modules
 AUDIO_PAL += libsession_agm
@@ -80,8 +84,6 @@ AUDIO_PAL += libdev_speaker_mic
 AUDIO_PAL += libdev_ultrasound
 AUDIO_PAL += libdev_usb
 
-AUDIO_PAL += libpaleventnotifier
-
 # C2 Audio
 AUDIO_C2 := libqc2audio_base
 AUDIO_C2 += libqc2audio_utils
@@ -90,11 +92,8 @@ AUDIO_C2 += libqc2audio_core
 AUDIO_C2 += libqc2audio_basecodec
 AUDIO_C2 += libqc2audio_hooks
 AUDIO_C2 += libqc2audio_swaudiocodec
-AUDIO_C2 += libqc2audio_swaudiocodec_data_common
 AUDIO_C2 += libqc2audio_hwaudiocodec
-AUDIO_C2 += libqc2audio_hwaudiocodec_data_common
 AUDIO_C2 += vendor.qti.media.c2audio@1.0-service
-AUDIO_C2 += qc2audio_test
 AUDIO_C2 += libEvrcSwCodec
 AUDIO_C2 += libQcelp13SwCodec
 AUDIO_C2 += c2audio.vendor.base-arm.policy
@@ -156,21 +155,12 @@ AUDIO_MODULES += mm-audio-ftm
 AUDIO_MODULES += libmcs
 AUDIO_MODULES += libquasar
 AUDIO_MODULES += sensors.dynamic_sensor_hal
-AUDIO_MODULES += libvui_dmgr
-AUDIO_MODULES += libvui_dmgr_client
-AUDIO_MODULES += qsap_voiceui
-AUDIO_MODULES += qsap_voiceui.policy
 AUDIO_MODULES += libaudiofeaturestats
-AUDIO_MODULES += libhotword_intf
-AUDIO_MODULES += libcustomva_intf
-AUDIO_MODULES += libvui_intf
-AUDIO_MODULES += libVoiceSdk
-AUDIO_MODULES += libtensorflowlite_c
+AUDIO_MODULES += hotword_plugin
+AUDIO_MODULES += customva_plugin
+AUDIO_MODULES += sva_plugin
+AUDIO_MODULES += libvui_utils
 AUDIO_MODULES += libqasr
-AUDIO_MODULES += libQnnHtp
-AUDIO_MODULES += libQnnHtpV79Skel
-AUDIO_MODULES += libQnnHtpV79Stub
-AUDIO_MODULES += libQnnSystem
 
 AUDIO_MODULES += $(AUDIO_AGM)
 AUDIO_MODULES += $(AUDIO_PAL)

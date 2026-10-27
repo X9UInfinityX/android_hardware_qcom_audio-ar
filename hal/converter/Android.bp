@@ -1,0 +1,25 @@
+cc_library_shared {
+    name: "libaudioplatformconverter.qti",
+    defaults: [
+        "latest_android_hardware_audio_core_ndk_shared",
+        "latest_android_media_audio_common_types_ndk_shared",
+    ],
+    owner: "qti",
+    vendor: true,
+
+    srcs: ["PlatformConverter.cpp"],
+
+    export_include_dirs: ["include"],
+
+    local_include_dirs: ["include"],
+
+    header_libs: [
+        "libarpal_headers",
+    ],
+
+    shared_libs: [
+        "libar-pal",
+        "libbase",
+        "libstagefright_foundation",
+    ],
+}

@@ -1,26 +1,9 @@
-#Audio product definitions 
+#Audio product definitions
 include vendor/qcom/opensource/audio-hal/primary-hal/configs/audio-generic-modules.mk
+include vendor/qcom/opensource/audio-kernel/audio_kernel_modules.mk
 PRODUCT_PACKAGES += $(AUDIO_GENERIC_MODULES)
 
 PRODUCT_PACKAGES_DEBUG += $(MM_AUDIO_DBG)
-
-#----------------------------------------------------------------------
-# audio specific
-#----------------------------------------------------------------------
-TARGET_USES_AOSP := false
-TARGET_USES_AOSP_FOR_AUDIO := false
-
-ifeq ($(TARGET_USES_QMAA_OVERRIDE_AUDIO), false)
-ifeq ($(TARGET_USES_QMAA),true)
-AUDIO_USE_STUB_HAL := true
-TARGET_USES_AOSP_FOR_AUDIO := true
-endif
-endif
-ifeq ($(AUDIO_USE_STUB_HAL), true)
--include $(TOPDIR)vendor/qcom/opensource/audio-hal/primary-hal/configs/common/default.mk
-else
--include $(TOPDIR)vendor/qcom/opensource/audio-hal/primary-hal/configs/$(TARGET_BOARD_PLATFORM)/$(TARGET_BOARD_PLATFORM).mk
-endif
 
 $(warning audio check QC_HWASAN: $(QC_HWASAN) sanitize_target $(SANITIZE_TARGET))
 $(call add_soong_config_namespace,vendor_audio_hwasan_config)
@@ -41,17 +24,18 @@ SOONG_CONFIG_qtiaudio_var00 := false
 SOONG_CONFIG_qtiaudio_var11 := false
 SOONG_CONFIG_qtiaudio_var22 := false
 SOONG_CONFIG_qtiaudio_hwasan := false
+SOONG_CONFIG_qtiaudio_hy00 := false
+SOONG_CONFIG_qtiaudio_hy11 := false
+SOONG_CONFIG_qtiaudio_hy22 := false
 
-ifneq ($(BUILD_AUDIO_TECHPACK_SOURCE), true)
-    SOONG_CONFIG_qtiaudio_var00 := true
-    SOONG_CONFIG_qtiaudio_var11 := true
-    SOONG_CONFIG_qtiaudio_var22 := true
-endif
 ifeq (,$(wildcard $(QCPATH)/mm-audio-noship))
     SOONG_CONFIG_qtiaudio_var11 := true
+    SOONG_CONFIG_qtiaudio_hy11 := true
 endif
+
 ifeq (,$(wildcard $(QCPATH)/mm-audio))
     SOONG_CONFIG_qtiaudio_var22 := true
+    SOONG_CONFIG_qtiaudio_hy22 := true
 endif
 
 ifneq ($(filter hwaddress,$(SANITIZE_TARGET)),)
@@ -67,3 +51,44 @@ $(call add_soong_config_var_value,vendor_audio_hwasan_config,use_hwasan,true)
 else
 $(call add_soong_config_var_value,vendor_audio_hwasan_config,use_hwasan,false)
 endif
+
+#----------------------------------------------------------------------
+# audio specific
+#----------------------------------------------------------------------
+
+# C2 compilation is disabled by default.
+# for target specific enablement, set it to true in the target specific .mk file.
+TARGET_USES_VENDOR_C2_AUDIO_HAL := false
+$(warning "C2 audio compilation disabled by default")
+
+TARGET_USES_AOSP := false
+TARGET_USES_AOSP_FOR_AUDIO := false
+
+ifeq ($(TARGET_USES_QMAA_OVERRIDE_AUDIO), false)
+ifeq ($(TARGET_USES_QMAA),true)
+AUDIO_USE_STUB_HAL := true
+TARGET_USES_AOSP_FOR_AUDIO := true
+endif
+endif
+ifeq ($(AUDIO_USE_STUB_HAL), true)
+-include $(TOPDIR)vendor/qcom/opensource/audio-hal/primary-hal/configs/common/default.mk
+else
+-include $(TOPDIR)vendor/qcom/opensource/audio-hal/primary-hal/configs/$(TARGET_BOARD_PLATFORM)/$(TARGET_BOARD_PLATFORM).mk
+endif
+
+ifneq ($(BUILD_AUDIO_TECHPACK_SOURCE), true)
+    SOONG_CONFIG_qtiaudio_var00 := true
+    SOONG_CONFIG_qtiaudio_var11 := true
+    SOONG_CONFIG_qtiaudio_var22 := true
+    SOONG_CONFIG_qtiaudio_hy00 := true
+    SOONG_CONFIG_qtiaudio_hy11 := true
+    SOONG_CONFIG_qtiaudio_hy22 := true
+endif
+
+.PHONY: audio_tp audio_tp_hal audio_tp_dlkm
+
+audio_tp: audio_tp_hal audio_tp_dlkm
+
+audio_tp_hal: $(AUDIO_MODULES) $(AUDIO_GENERIC_MODULES)
+
+audio_tp_dlkm: $(AUDIO_KERNEL_MODULES)
